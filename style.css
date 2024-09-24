@@ -1,6 +1,132 @@
 @charset "UTF-8";
-
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", sans-serif;
+}
+/** ヘッダー **/
+#header {
+    height: 100px;
+    justify-content: space-between;
+    display: flex;
+    z-index: 1000;
+}
+#header h1 {
+    padding: 40px 0 0 50px;
+}
+#header h1 a img {
+    z-index: 1002; /* 他の要素の上に表示 */
+    width: 100px; /* 適切な幅を設定 */
+    height: auto; /* 高さを自動調整 */
+    position: relative; /* 他の要素に隠れないように相対位置を指定 */
+    display: block; /* 必要に応じて */
+}
+/** ヘッダー ハンバーガーメニュー **/
+#header .hamburger-menu {
+    position: relative; /* 相対位置に設定し、子要素の絶対位置を基準にする */
+    height: 100px; /* ハンバーガーメニューの全体の高さを設定 */
+    width: 100px; /* ハンバーガーメニュー全体の幅を設定 */
+    cursor: pointer;
+    z-index: 999;
+    background-color: #FF2A2A;
+}
+.bar {
+    position: absolute; /* 親要素に対して絶対位置を指定 */
+    width: 45%;
+    height: 2px;
+    left: 25%;
+    right: 25%;
+    background-color: white;
+    transition: transform 0.4s ease, opacity 0.3s ease; /* アニメーションの追加 */
+}
+/* 上のバー */
+.bar:nth-child(1) {
+    top: 35px; /* 上から35pxの位置 */
+}
+/* 真ん中のバー */
+.bar:nth-child(2) {
+    top: 50%; /* 真ん中に配置 */
+}
+/* 下のバー */
+.bar:nth-child(3) {
+    bottom: 35px; /* 下から35pxの位置 */
+}
+/* クロスアニメーション（メニューが開かれたとき） */
+.hamburger-menu.open .bar:nth-child(1) {
+    transform: rotate(-45deg) translateY(20px);
+}
+.hamburger-menu.open .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu.open .bar:nth-child(3) {
+    transform: rotate(45deg) translateY(-20px);
+}
+/** ナビゲーションメニュー **/
+#header .nav-menu {
+    position: fixed;
+    padding-top: 90px;
+    width: 100%;
+    height: 100%;
+    display: none; /* 初期状態は非表示 */
+    justify-content: center;
+    background-color: #FF2A2A; /* メニュー表示時の背景色 */
+    z-index: 998;
+}
+.nav-menu ul {
+    text-align: center;
+}
+.nav-menu li {
+    list-style: none;
+    font-weight: bold;
+    padding-bottom: 20px;
+    transition-duration: 0.5s;
+}
+#header .nav-menu li:nth-child(3){
+    padding-bottom: 50px;
+}
+#header .nav-menu li:last-child{
+    display: block;
+    padding: 0;
+    border: solid 1px white;
+    position: relative;
+}
+#header .nav-menu li:last-child a {
+    display: block; /* リンクをリスト全体に適用 */
+    padding: 20px 60px;
+    position: relative; /* 疑似要素との重なりを解消 */
+    z-index: 2;         /* 疑似要素よりも前に表示 */
+}
+#header .nav-menu li:last-child::before {
+    content: "";            /* 疑似要素には必須 */
+    display: block;         /* ブロック要素にする */
+    width: 100%;            /* 適度な大きさを指定 */
+    height: 100%;           /* 適度な大きさを指定 */
+    border-bottom: solid 1px white;
+    border-right: solid 1px white;
+    position: absolute;     /* 相対位置に指定 */
+    top: 5px;               /* 大きさに合わせて微調整 */
+    left: 5px;              /* 大きさに合わせて微調整 */
+    z-index: 0;
+}
+#header .nav-menu li:last-child:hover {
+    background-color: white;
+    color: red;
+}
+#header .nav-menu li:last-child:hover a{
+    color:red;
+}
+.nav-menu a {
+    text-decoration: none;
+    color: white;
+}
+#header .nav-menu.show {
+    display: flex; /* フェードイン時に表示 */
+}
+@media (min-width: 768px) {
+    .nav-menu {
+        display: block;
+    }
 }
