@@ -1,62 +1,49 @@
-$(document).ready(function() {
-    // ハンバーガーメニューのクリックイベント
-    $('.hamburger-menu').click(function() {
-        $(this).toggleClass('open');
-
-        var navMenu = $('.nav-menu');
-        if (navMenu.hasClass('show')) {
-            // メニューを閉じる
-            navMenu.fadeOut(300, function() {
-                navMenu.removeClass('show');
-
-                // ロゴの切り替え
-                var logo = $('#header h1 a img');
-                var newSrc = logo.attr('src').indexOf('logo-r.svg') !== -1 ?
-                            'img/logo-w.svg' : 'img/logo-r.svg';
-
-                $('<img>').attr('src', newSrc).on('load', function() {
-                    logo.attr('src', newSrc);
-                });
-            });
-        } else {
-            // メニューを開く
-            navMenu.addClass('show').fadeIn(300, function() {
-                // ロゴの切り替え
-                var logo = $('#header h1 a img');
-                var newSrc = logo.attr('src').indexOf('logo-r.svg') !== -1 ?
-                            'img/logo-w.svg' : 'img/logo-r.svg';
-
-                $('<img>').attr('src', newSrc).on('load', function() {
-                    logo.attr('src', newSrc);
-                });
-            });
-        }
+$(function(){
+    // ハンバーガーメニューをクリックした時
+    $('.hamburger').on('click', function() {
+      // ハンバーガーメニューの共通処理を呼び出す
+    hamburger();
+    });
+    // メニューのリンクをクリックした時
+    $('#navi a').on('click', function() {
+      // ハンバーガーメニューの共通処理を呼び出す
+    hamburger();
     });
 
-    // 「無料体験に申し込む」リンクをクリックしたときの動作
-    $('.nav-menu a[href="#header"]').click(function() {
-        var target = $($(this).attr('#header')); // リンク先の要素を取得
-
-        // ロゴの切り替え
-        var logo = $('#header h1 a img');
-        var newSrc = logo.attr('src').indexOf('logo-r.svg') !== -1 ?
-                    'img/logo-w.svg' : 'img/logo-r.svg';
-
-        $('<img>').attr('src', newSrc).on('load', function() {
-            logo.attr('src', newSrc);
-        });
-
-        // ハンバーガーメニューを閉じる
-        $('.hamburger-menu').removeClass('open');
-        $('.nav-menu').fadeOut(500, function() {
-            $('.nav-menu').removeClass('show');
-        });
-
-        // スムーズにスクロール
-        if (target.length) {
-            $('html, body').animate({
-                scrollTop: target.offset().top // ターゲットの位置までスクロール
-            }, 1000); // 1秒でスクロール
-        }
+    //スライド左
+    $('.inview-slide-left').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    if(isInView){
+        // 要素が表示されたらslide-leftクラスを追加
+        $(this).stop().addClass('slide-left');
+    }
+    });
+    //スライド右
+    $('.inview-slide-right').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    if(isInView){
+        // 要素が表示されたらslide-rightクラスを追加
+        $(this).stop().addClass('slide-right');
+    }
+    });
+    // 受講生の声
+    $('.inview-balloon').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    if(isInView){
+        // 要素が表示されたらballoonクラスを追加
+        $(this).stop().addClass('balloon');
+    }
     });
 });
+  // ハンバーガーメニューをクリックした時とメニュー内のリンクをクリックした時の
+  // 処理が同じなので処理を共通化する
+function hamburger() {
+    // toggleClassを使用することで、hamburgerクラスにactiveクラスが存在する場合は削除、
+    // 存在しない場合を追加する処理を自動で行ってくれる
+    $('.hamburger').toggleClass('active');
+
+    if ($('.hamburger').hasClass('active')) {
+      // hamburgerクラスにactiveクラスが存在する場合は、naviにもactiveクラスを追加する
+    $('#navi').addClass('active');
+    } else {
+      // hamburgerクラスにactiveクラスが存在しない場合は、naviからactiveクラスを削除する
+    $('#navi').removeClass('active');
+    }
+}
